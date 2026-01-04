@@ -301,9 +301,6 @@ def render_category_correlation(filtered: pd.DataFrame) -> None:
 
     c1, c2 = st.columns(2)
 
-    # ==========================================================
-    # PANEL 1: AQI CATEGORY DISTRIBUTION (PIE CHART)
-    # ==========================================================
     with c1:
         cat_counts = filtered["AQI_Category"].value_counts()
 
@@ -322,9 +319,6 @@ def render_category_correlation(filtered: pd.DataFrame) -> None:
             )
             st.plotly_chart(fig_cat, use_container_width=True)
 
-    # ==========================================================
-    # PANEL 2: CITY-LEVEL AQI VARIABILITY (INSIGHT ONLY)
-    # ==========================================================
     with c2:
         city_stats = (
             filtered.groupby("City")["AQI_avg"]
@@ -385,46 +379,3 @@ def render_category_correlation(filtered: pd.DataFrame) -> None:
             )
 
     st.divider()
-
-
-
-# # def render_category_correlation(filtered: pd.DataFrame) -> None:
-#     st.markdown("## 🔬 Category Distribution & Correlation")
-
-#     i1, i2 = st.columns(2)
-
-#     with i1:
-#         cat_counts = filtered["AQI_Category"].value_counts()
-#         fig_cat = px.pie(
-#             values=cat_counts.values,
-#             names=cat_counts.index,
-#             title="AQI Category Distribution",
-#         )
-#         st.plotly_chart(fig_cat, use_container_width=True)
-
-#     with i2:
-#         numeric_cols = [c for c in ["AQI_avg", "AQI_max", "AQI_min"] if c in filtered]
-#         num_df = filtered[numeric_cols].dropna()
-#         if not num_df.empty:
-#             corr = num_df.corr()
-#             fig_corr = go.Figure(
-#                 data=go.Heatmap(
-#                     z=corr.values,
-#                     x=corr.columns,
-#                     y=corr.columns,
-#                     colorscale="RdBu",
-#                     zmid=0,
-#                     zmin=-1,
-#                     zmax=1,
-#                     text=np.round(corr.values, 2),
-#                     texttemplate="%{text}",
-#                 )
-#             )
-#             fig_corr.update_layout(
-#                 title="Correlation Matrix (AQI Metrics)",
-#                 template="plotly_white",
-#                 height=400,
-#             )
-#             st.plotly_chart(fig_corr, use_container_width=True)
-
-#     st.divider()
